@@ -36,25 +36,21 @@
         </button>
     </section>
 
-   <script>
-    // 1. 最初は false に設定（これで読み込み時はトリガーされない）
+<script>
+    // 1. 最初は false（これで読み込み時は AND条件が揃わないので飛ばない）
     window.isClicked = false;
 
     document.getElementById('checkout-button').addEventListener('click', function() {
-        console.log('Checkout button clicked. Changing variable and initiating Queue-it...');
+        console.log('Button clicked!');
         
-        // 2. ボタンが押されたら変数を true に変える（合図を送る）
+        // 2. 変数を true に変える（これで AND条件が揃う）
         window.isClicked = true;
-        
+
         if (window.queueViewModel) {
-            console.log('Queue-it trigger() is being called.');
-            
-            // 3. Queue-itに「変数をチェックして判定して！」と命令する
+            // 3. Queue-itに「今すぐ条件を再チェックして！」と命令する
             window.queueViewModel.trigger();
-            
-            alert('isClicked is now true. Queue-it will now evaluate the trigger.');
         } else {
-            alert('Queue-it script not found.');
+            console.log('Queue-it engine is not initialized yet.');
         }
     });
 </script>
