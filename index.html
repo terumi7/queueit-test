@@ -5,6 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Queue-it Implementation Test</title>
 
+    <style>
+        body {
+            /* Aptos を最優先し、未インストールの場合は Inter や標準サンセリフ体を使用 */
+            font-family: 'Aptos', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #f8f9fa;
+        }
+        h1, h2 {
+            color: #1a1a1a;
+            border-bottom: 2px solid #eaeaea;
+            padding-bottom: 10px;
+        }
+        section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        button {
+            font-family: inherit; /* フォントを継承 */
+        }
+    </style>
+
     <script type='text/javascript' src='//static.queue-it.net/script/queueclient.min.js'></script>
     <script
        data-queueit-c='1118'
@@ -13,47 +41,45 @@
     </script>
 </head>
 <body>
-    <h1>Test page for Keita</h1>
-    <p>Use the buttons below to test different trigger scenarios and integration logic.</p>
-
-    <hr>
+    <h1>Queue-it Test Dashboard</h1>
+    <p>Modern UI with Advanced Triggering Logic.</p>
 
     <section>
         <h2>Scenario 1: URL Parameter Trigger</h2>
-        <p>This button redirects you to a URL containing a specific parameter.</p>
-        <a href="?target=exclusive-sale" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px;">
+        <p>Redirects based on a specific URL query.</p>
+        <a href="?target=exclusive-sale" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
             Go to Exclusive Sale
         </a>
     </section>
 
-    <br>
-
     <section>
         <h2>Scenario 2: JavaScript API Trigger</h2>
-        <p>This button calls the Queue-it API manually to check triggers without reloading.</p>
-        <button id="checkout-button" style="padding: 10px 20px; cursor: pointer; border: 1px solid #333; border-radius: 4px; background-color: #28a745; color: white;">
+        <p>This button only triggers Queue-it after updating a local variable.</p>
+        <button id="checkout-button" style="padding: 12px 24px; cursor: pointer; border: none; border-radius: 4px; background-color: #28a745; color: white; font-weight: bold; font-size: 16px;">
             Proceed to Checkout (JS Trigger)
         </button>
     </section>
 
-<script>
-    // 1. 最初は false（これで読み込み時は AND条件が揃わないので飛ばない）
-    window.isClicked = false;
+    <script>
+        // 初期状態は false（読み込み時のリダイレクトを阻止）
+        window.isClicked = false;
 
-    document.getElementById('checkout-button').addEventListener('click', function() {
-        console.log('Button clicked!');
-        
-        // 2. 変数を true に変える（これで AND条件が揃う）
-        window.isClicked = true;
+        document.getElementById('checkout-button').addEventListener('click', function() {
+            console.log('Button clicked. Activating flag and triggering Queue-it...');
+            
+            // フラグを true に変更（GOのAND条件を満たすため）
+            window.isClicked = true;
 
-        if (window.queueViewModel) {
-            // 3. Queue-itに「今すぐ条件を再チェックして！」と命令する
-            window.queueViewModel.trigger();
-        } else {
-            console.log('Queue-it engine is not initialized yet.');
-        }
-    });
-</script>
-
+            if (window.queueViewModel) {
+                // Queue-itの判定を明示的に実行
+                window.queueViewModel.trigger();
+                
+                // 実行されたことを確認するためのログ
+                console.log('window.queueViewModel.trigger() executed with isClicked = true');
+            } else {
+                console.error('Queue-it script not found.');
+            }
+        });
+    </script>
 </body>
 </html>
