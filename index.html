@@ -7,31 +7,43 @@
 
     <style>
         body {
-            /* Aptos を最優先し、未インストールの場合は Inter や標準サンセリフ体を使用 */
-            font-family: 'Aptos', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Aptos', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             line-height: 1.6;
             color: #333;
-            max-width: 800px;
+            max-width: 600px;
             margin: 0 auto;
             padding: 40px 20px;
             background-color: #f8f9fa;
         }
-        h1, h2 {
-            color: #1a1a1a;
-            border-bottom: 2px solid #eaeaea;
-            padding-bottom: 10px;
-        }
         section {
             background: white;
-            padding: 20px;
-            margin-bottom: 20px;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        h1 { font-size: 24px; margin-bottom: 10px; color: #1a1a1a; }
+        p { color: #666; margin-bottom: 30px; }
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+            text-decoration: none;
         }
-        button {
-            font-family: inherit; /* フォントを継承 */
-        }
+        .btn-primary { background-color: #007bff; color: white; margin-bottom: 10px; }
+        .btn-success { background-color: #28a745; color: white; width: 100%; }
+        .btn:active { transform: scale(0.98); }
     </style>
+
+    <script>
+        // 【重要】Queue-itが読み込まれる前に、フラグを false に確定させる
+        window.isClicked = false;
+    </script>
 
     <script type='text/javascript' src='//static.queue-it.net/script/queueclient.min.js'></script>
     <script
@@ -41,44 +53,38 @@
     </script>
 </head>
 <body>
-    <h1>Queue-it Test Keita</h1>
 
     <section>
-        <h2>Scenario 1: URL Parameter Trigger</h2>
-        <p>Redirects based on a URL query.</p>
-        <a href="?target=exclusive-sale" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
-            Go to Exclusive Sale
+        <h1>Queue-it Test Keita</h1>
+        <p>Aptos font & JS Triggering logic applied.</p>
+
+        <a href="?target=exclusive-sale" class="btn btn-primary">
+            Scenario 1: URL Trigger
         </a>
-    </section>
 
-    <section>
-        <h2>Scenario 2: JavaScript API Trigger</h2>
-        <p>Ttriggers Queue-it after updating a local variable.</p>
-        <button id="checkout-button" style="padding: 12px 24px; cursor: pointer; border: none; border-radius: 4px; background-color: #28a745; color: white; font-weight: bold; font-size: 16px;">
-            Proceed to Checkout 
+        <div style="margin: 20px 0; border-top: 1px solid #eee;"></div>
+
+        <button id="checkout-button" class="btn btn-success">
+            Proceed to Checkout (JS Trigger)
         </button>
     </section>
 
     <script>
-        // 初期状態は false（読み込み時のリダイレクトを阻止）
-        window.isClicked = false;
-
         document.getElementById('checkout-button').addEventListener('click', function() {
-            console.log('Button clicked. Activating flag and triggering Queue-it...');
+            console.log('Button clicked. Setting isClicked = true and triggering Queue-it...');
             
-            // フラグを true に変更（GOのAND条件を満たすため）
+            // フラグを true に変更
             window.isClicked = true;
 
             if (window.queueViewModel) {
-                // Queue-itの判定を明示的に実行
+                // 明示的に判定を実行
                 window.queueViewModel.trigger();
-                
-                // 実行されたことを確認するためのログ
-                console.log('window.queueViewModel.trigger() executed with isClicked = true');
             } else {
-                console.error('Queue-it script not found.');
+                console.error('Queue-it engine not active.');
+                alert('Triggering failed: Engine not active. Check GO Platform settings.');
             }
         });
     </script>
+
 </body>
 </html>
