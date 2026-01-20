@@ -11,7 +11,52 @@
 </script>
     </head>
 <body>
-    <h1>Test page for Queue-it</h1>
-    <p>Keita is testing implementation</p>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Queue-it Implementation Test</title>
+
+    <script
+        src="//assets.queue-it.net/script/queueclient.min.js"
+        data-queueit-customerid="YOUR_CUSTOMER_ID"
+        async>
+    </script>
+</head>
+<body>
+    <h1>Queue-it Validation Page</h1>
+    <p>Use the buttons below to test different trigger scenarios and integration logic.</p>
+
+    <hr>
+
+    <section>
+        <h2>Scenario 1: URL Parameter Trigger</h2>
+        <p>This button redirects you to a URL containing a specific parameter. You can configure Queue-it to only trigger when this parameter is present.</p>
+        <a href="?target=exclusive-sale" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px;">
+            Go to Exclusive Sale
+        </a>
+    </section>
+
+    <br>
+
+    <section>
+        <h2>Scenario 2: JavaScript Event Trigger</h2>
+        <p>This button triggers a custom JavaScript alert. In a real scenario, you could use this to call the Queue-it API manually.</p>
+        <button id="checkout-button" style="padding: 10px 20px; cursor: pointer; border: 1px solid #333; border-radius: 4px;">
+            Proceed to Checkout
+        </button>
+    </section>
+
+    <script>
+        document.getElementById('checkout-button').addEventListener('click', function() {
+            console.log('Checkout button clicked. Initiating Queue-it logic...');
+            alert('Queue-it logic would be triggered here.');
+            // Manual trigger example:
+            // window.queueViewModel.triggerWaitingRoom();
+        });
+    </script>
+
 </body>
+</html>
 </html>
