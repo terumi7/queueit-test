@@ -46,15 +46,20 @@
     </script>
 
 
-<script src="https://static.queue-it.net/script/queueclient.min.js"></script>
-<script 
-  data-queueit-c="whitepapertest"
-  src="https://static.queue-it.net/script/queueconfigloader.min.js">
-</script>
-
+<head>
+    <!-- queueclient は先に読み込む -->
+    <script type='text/javascript' 
+            src='//static.queue-it.net/script/queueclient.min.js'></script>
+    
+    <!-- configloader は defer or 末尾に移動 -->
+    <script
+        data-queueit-c='whitepapertest'
+        type='text/javascript'
+        src='//static.queue-it.net/script/queueconfigloader.min.js'
+        defer>
+    </script>
 </head>
-<body>
-
+    
     <section>
         <h1>Queue-it Test</h1>
         <p>Testing Queue-it implementation.</p>
